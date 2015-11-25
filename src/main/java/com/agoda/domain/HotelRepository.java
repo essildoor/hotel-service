@@ -33,15 +33,7 @@ public class HotelRepository {
     @Value("${hotel.db.file.extension}")
     private String hotelDbFileExtension;
 
-    private final Map<Long, Hotel> storage;
-
-    public HotelRepository() {
-
-
-        storage = new HashMap<>();
-
-
-    }
+    private Map<Long, Hotel> storage;
 
     @PostConstruct
     public void initialize() {
@@ -51,6 +43,8 @@ public class HotelRepository {
                 || hotelDbFileExtension.isEmpty())
             throw new IllegalArgumentException("check parameters: hotelDbFileName=" + hotelDbFileName
                     + ", hotelDbFileExtension=" + hotelDbFileExtension);
+
+        storage = new HashMap<>();
 
         final String fileName = hotelDbFileName + "." + hotelDbFileExtension;
         Reader in;
@@ -94,10 +88,10 @@ public class HotelRepository {
     }
 
     /**
-     * Returns list of hotels in specified city, optionaly sorted
+     * Returns list of hotels in specified city, optionally sorted by price
      * @param city city to filter hotels
      * @param sortByPrice sort by price
-     * @param asc sorting direction
+     * @param asc sorting order
      * @return list of hotels
      */
     public List<Hotel> getHotelsByCity(String city, boolean sortByPrice, boolean asc) {
