@@ -1,17 +1,11 @@
 package com.agoda.domain;
 
-import com.agoda.RateLimit;
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import com.agoda.HotelServiceMain;
 import org.hamcrest.collection.IsIterableContainingInOrder;
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsEqual;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Equals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
@@ -28,7 +22,7 @@ import static org.junit.Assert.*;
  * Created by Andrey Kapitonov on 25.11.2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(RateLimit.class)
+@SpringApplicationConfiguration(HotelServiceMain.class)
 public class TestHotelRepository {
 
     @Autowired
