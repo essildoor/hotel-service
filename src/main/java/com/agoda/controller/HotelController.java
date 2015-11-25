@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,7 @@ public class HotelController {
     @Autowired
     private HotelRepository hotelRepository;
 
-    @RequestMapping("/hotels")
+    @RequestMapping(value = "/hotels", method = RequestMethod.GET)
     public List<Hotel> getHotelsByCity(
             @RequestParam(value = "city", required = true) String city,
             @RequestParam(value = "sortByPrice", defaultValue = "false", required = false) boolean sortByPrice,
@@ -42,5 +43,4 @@ public class HotelController {
 
         return result;
     }
-
 }
