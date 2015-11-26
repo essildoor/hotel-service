@@ -10,16 +10,19 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-import static java.util.Comparator.*;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.reverseOrder;
 
 /**
  *
@@ -88,8 +91,19 @@ public class HotelRepository {
         log.debug(storage.size() + " records were read from file");
     }
 
+    /**
+     *
+     * @return number of records in this repository
+     */
     public int size() {
-        return storage.size();
+        int result = 0;
+        lock.lock();
+        try {
+            result = storage.size();
+        } finally {
+            lock.unlock();
+        }
+        return result;
     }
 
     /**
