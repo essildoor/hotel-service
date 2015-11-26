@@ -1,6 +1,7 @@
 # hotel-service
+to build and run this application you need jdk 1.8 and maven 3 installed properly
 
-to build with maven use 'mvn repackage'
+to build with maven use 'mvn clean package';
 
 to run app 'java -jar hotel-service-1.0.jar'
 
