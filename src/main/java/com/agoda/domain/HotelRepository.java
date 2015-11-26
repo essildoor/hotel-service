@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.*;
@@ -49,8 +50,9 @@ public class HotelRepository {
         final String fileName = hotelDbFileName + "." + hotelDbFileExtension;
         Reader in;
         Resource dbFile = new ClassPathResource(fileName);
+
         try {
-            in = new FileReader(dbFile.getFile());
+            in = new InputStreamReader(dbFile.getInputStream());
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().parse(in);
             for (CSVRecord record : records) {
                 long id = -1L;
