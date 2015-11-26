@@ -1,6 +1,6 @@
 # hotel-service
 
-to build with maven use 'mvn jar:jar'
+to build with maven use 'mvn repackage'
 
 to run app 'java -jar hotel-service-1.0.jar'
 
