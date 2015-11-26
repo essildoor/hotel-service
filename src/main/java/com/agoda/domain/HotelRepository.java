@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import static java.util.Comparator.*;
@@ -35,6 +36,7 @@ public class HotelRepository {
     private String hotelDbFileExtension;
 
     private Map<Long, Hotel> storage;
+    private ReentrantLock lock;
 
     @PostConstruct
     public void initialize() {
@@ -46,6 +48,7 @@ public class HotelRepository {
                     + ", hotelDbFileExtension=" + hotelDbFileExtension);
 
         storage = new HashMap<>();
+        lock = new ReentrantLock();
 
         final String fileName = hotelDbFileName + "." + hotelDbFileExtension;
         Reader in;
@@ -100,13 +103,17 @@ public class HotelRepository {
         if (city == null || city.isEmpty()) throw new IllegalArgumentException("city must be specified!");
         List<Hotel> result;
 
-        //get hotels by city
-        result = storage.values().stream().filter(hotel -> city.equals(hotel.getCity())).collect(Collectors.toList());
-
-        //sort if needed
-        if (sortByPrice) {
-            if (asc) result = result.stream().sorted(comparing(Hotel::getPrice)).collect(Collectors.toList());
-            else result = result.stream().sorted(comparing(Hotel::getPrice, reverseOrder())).collect(Collectors.toList());
+        lock.lock();
+        try {
+            //get hotels by city
+            result = storage.values().stream().filter(hotel -> city.equals(hotel.getCity())).collect(Collectors.toList());
+            //sort if needed
+            if (sortByPrice) {
+                if (asc) result = result.stream().sorted(comparing(Hotel::getPrice)).collect(Collectors.toList());
+                else result = result.stream().sorted(comparing(Hotel::getPrice, reverseOrder())).collect(Collectors.toList());
+            }
+        } finally {
+            lock.unlock();
         }
 
         return result == null ? Collections.emptyList() : result;
